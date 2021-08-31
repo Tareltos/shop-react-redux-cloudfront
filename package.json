@@ -17,7 +17,8 @@
     "cloudfront:update:build:deploy": "npm run cloudfront:setup && npm run cloudfront:build:deploy",
     "cloudfront:update:build:deploy:nc": "npm run cloudfront:setup && npm run cloudfront:build:deploy:nc",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "build:deploy": "npm run build && serverless client deploy --no-config-change --no-policy-change --no-cors-change"
   },
   "dependencies": {
     "@material-ui/core": "^4.11.0",
@@ -39,6 +40,7 @@
     "lodash": "^4.17.19",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
+    "react-facebook-login": "^4.1.1",
     "react-redux": "^7.2.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.1",
@@ -51,7 +53,9 @@
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
-    "@types/jest": "^24.0.0"
+    "@types/jest": "^24.0.0",
+    "@types/react-facebook-login": "^4.1.4",
+    "serverless-single-page-app-plugin": "git+https://github.com/Tareltos/vta-sls-plugin.git"
   },
   "eslintConfig": {
     "extends": "react-app"

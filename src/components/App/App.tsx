@@ -11,6 +11,7 @@ import PageProductForm from "components/pages/PageProductForm/PageProductForm";
 import PageCart from "components/pages/PageCart/PageCart";
 import PageOrders from "components/pages/PageOrders/PageOrders";
 import PageOrder from "components/pages/PageOrder/PageOrder";
+import SingIn from "components/pages/SingIn/SingIn";
 import PageProductImport from "components/pages/admin/PageProductImport/PageProductImport";
 
 function App() {
@@ -22,6 +23,9 @@ function App() {
           <MainLayout>
             <Route exact path="/">
               <PageProducts/>
+            </Route>
+            <Route exact path="/singin">
+              <SingIn/>
             </Route>
             <Route exact path={["/admin/product-form/:id", '/admin/product-form']}>
               <PageProductForm/>
