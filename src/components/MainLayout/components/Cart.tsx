@@ -12,14 +12,14 @@ export default function Cart() {
   const dispatch = useDispatch();
   useEffect(() => {
     axios.get(
-        `${API_PATHS.cart}/profile/cart`,
+        `${API_PATHS.cart}?userId=tareltos`,
         {
-          headers: {
-            Authorization: `Basic ${localStorage.getItem('authorization_token')}`
-          }
+          // headers: {
+          //   Authorization: `Basic ${localStorage.getItem('authorization_token')}`
+          // }
         }
-    ).then(({ data: { data: { cart } } }) => {
-      dispatch(updateFromApi(cart))
+    ).then(({ data}) => {
+      dispatch(updateFromApi({items : data}))
     });
   }, [dispatch]);
   const cartItems = useSelector(selectCartItems);

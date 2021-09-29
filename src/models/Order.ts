@@ -11,7 +11,7 @@ export type Address = Yup.InferType<typeof AddressSchema>;
 
 
 export const OrderItemSchema = Yup.object({
-  productId: Yup.string().required(),
+  productId: Yup.number().required(),
   count: Yup.number().integer().positive().required()
 }).defined();
 
@@ -21,7 +21,6 @@ export type OrderItem = Yup.InferType<typeof OrderItemSchema>;
 export const OrderSchema = Yup.object({
   id: Yup.string().required(),
   items: Yup.array().of(OrderItemSchema),
-  address: AddressSchema,
   status: Yup.string().required(),
 }).defined();
 

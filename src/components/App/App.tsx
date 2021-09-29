@@ -24,9 +24,9 @@ function App() {
             <Route exact path="/">
               <PageProducts/>
             </Route>
-            <Route exact path="/singin">
+            {/* <Route exact path="/singin">
               <SingIn/>
-            </Route>
+            </Route> */}
             <Route exact path={["/admin/product-form/:id", '/admin/product-form']}>
               <PageProductForm/>
             </Route>

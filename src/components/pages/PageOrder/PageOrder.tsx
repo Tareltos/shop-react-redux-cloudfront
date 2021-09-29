@@ -44,10 +44,10 @@ const Form = (props: FormikProps<FormikValues>) => {
     // onGetCitizen,
     // shouldConfirmLeave,
   } = props;
-  let helperText = '';
-  if ((values.status) === ORDER_STATUS.approved) {
-    helperText = 'Setting status to APPROVED will decrease products count from stock!!!';
-  }
+  // let helperText = '';
+  // if ((values.status) === ORDER_STATUS.approved) {
+  //   helperText = 'Setting status to APPROVED will decrease products count from stock!!!';
+  // }
   // TODO add check if status was changed from approved to cancelled
   //  to increase product count back again
   // if ((values.status) === ORDER_STATUS.cancelled) {
@@ -63,8 +63,8 @@ const Form = (props: FormikProps<FormikValues>) => {
             name="status"
             label="Status"
             select
-            fullWidth
-            helperText={helperText}
+            fullWidthf
+            helperText={'helperText'}
           >
             {ORDER_STATUS_FLOW.map((status,index) => (
               <MenuItem key={index} value={status}>
@@ -105,7 +105,7 @@ export default function PageOrder() {
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const onChangeStatus = (values: FormikValues) => {
-    return axios.put(`${API_PATHS.order}/order/${order.id}/status`, values)
+    return axios.patch(`${API_PATHS.order}/${order.id}/status`, values)
       .then(({data}) => setOrder(data));
   };
 
@@ -115,8 +115,8 @@ export default function PageOrder() {
       return;
     }
     const promises: any[] = [
-      axios.get(`${API_PATHS.product}/product`),
-      axios.get(`${API_PATHS.order}/order/${id}`)
+      axios.get(`${API_PATHS.product}`),
+      axios.get(`${API_PATHS.order}/${id}`)
     ];
     Promise.all(promises)
       .then(([{data: products}, {data: order}]) => {
@@ -141,18 +141,18 @@ export default function PageOrder() {
       <Typography component="h1" variant="h4" align="center">
         Manage order
       </Typography>
-      <ReviewOrder address={order.address} items={cartItems}/>
+      <ReviewOrder order={order}/>
       <Typography variant="h6">
         Status:
       </Typography>
       <Typography variant="h6" color="primary">
-        {lastStatusItem?.status.toUpperCase()}
+        {order.status}
       </Typography>
       <Typography variant="h6">
         Change status:
       </Typography>
-      <Formik
-        initialValues={{status: lastStatusItem.status, comment: ''}}
+      <Formik 
+        initialValues={{status: order.status, comment: ''}}
         enableReinitialize
         onSubmit={onChangeStatus}
       >
@@ -174,9 +174,9 @@ export default function PageOrder() {
             {statusHistory.map((statusHistoryItem: any) => (
               <TableRow key={order.id}>
                 <TableCell component="th" scope="row">
-                  {statusHistoryItem.status.toUpperCase()}
+                  {statusHistoryItem.status}
                 </TableCell>
-                <TableCell align="right">{(new Date(statusHistoryItem.timestamp)).toString()}</TableCell>
+                <TableCell align="right">{(new Date(statusHistoryItem.updatedAt)).toISOString()}</TableCell>
                 <TableCell align="right">{statusHistoryItem.comment}</TableCell>
               </TableRow>
             ))}

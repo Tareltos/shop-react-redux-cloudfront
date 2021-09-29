@@ -1,13 +1,13 @@
 import React, {useEffect, useState} from 'react';
 import axios from 'axios';
-import {useParams} from 'react-router-dom';
+import { useDispatch } from 'react-redux'
+import { useAsyncCallback } from 'react-use-async-callback';
 import PaperLayout from "components/PaperLayout/PaperLayout";
 import Typography from "@material-ui/core/Typography";
 import API_PATHS from "constants/apiPaths";
 import Grid from "@material-ui/core/Grid";
-import FacebookLogin from 'react-facebook-login';
 import { useCallback } from 'react';
-
+import Button from '@material-ui/core/Button';
 
 export default function SingIn() {
  
@@ -18,6 +18,7 @@ export default function SingIn() {
     email: '',
     picture: ''
   }); 
+  const dispatch = useDispatch();
 
   useEffect(()=> {
 
@@ -26,21 +27,23 @@ export default function SingIn() {
     }
 
   }, [loggined]);
-  const onClick = useCallback(() => console.log("test"), []);
-  
-  const responseFacebook = useCallback((response: any) => console.log(response), []);
+  const onClick = useCallback(() => {
+    dispatch(axios.get(API_PATHS.singIn + '/github')).then(resp => console.log(resp));
 
+  }, [dispatch]);
 
   return (
     <PaperLayout>
     <form onSubmit={()=> {}} autoComplete="off">
         <Grid container justifyContent='center' spacing={2}>
-          <FacebookLogin
-            appId="4601090489935927"
-            autoLoad={true}
-            fields="name,email,picture"
+        <Button
+            type="submit"
+            variant="contained"
+            color="secondary"
             onClick={onClick}
-            callback={responseFacebook} />
+          >
+            Sing in with GitHub
+          </Button>
         </Grid>
       </form>
     </PaperLayout>

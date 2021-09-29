@@ -6,7 +6,6 @@ import ListItemText from "@material-ui/core/ListItemText";
 import {makeStyles} from "@material-ui/core/styles";
 import {CartItem} from "models/CartItem";
 import {formatAsPrice} from "utils/utils";
-import AddProductToCart from "components/AddProductToCart/AddProductToCart";
 
 const useStyles = makeStyles((theme) => ({
   listItem: {
@@ -21,11 +20,17 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 type CartItemsProps = {
-  items: CartItem[],
-  isEditable: boolean
+  items: {
+    count: number,
+    price: number,
+    bookId :number,
+    title: string,
+    description: string,
+    id: number,
+  }[]
 };
 
-export default function CartItems({items, isEditable}: CartItemsProps) {
+export default function OrderItems({items}: CartItemsProps) {
   const classes = useStyles();
 
   const totalPrice: number = items.reduce((total, item) => (item.count * item.price + total), 0);
@@ -33,14 +38,8 @@ export default function CartItems({items, isEditable}: CartItemsProps) {
   return (
     <>
       <List disablePadding>
-        {items.map((cartItem: CartItem) => (
-          <ListItem className={classes.listItem} key={cartItem.productId}>
-            {isEditable && <AddProductToCart product={{
-              id: cartItem.productId,
-              price: cartItem.price,
-              description: cartItem.description,
-              title: cartItem.title
-            }}/>}
+        {items.map((cartItem) => (
+          <ListItem className={classes.listItem} key={cartItem.id}>
             <ListItemText primary={cartItem.title} secondary={cartItem.description}/>
             <Typography
               variant="body2">{formatAsPrice(cartItem.price)} x {cartItem.count} = {formatAsPrice(cartItem.price * cartItem.count)}</Typography>

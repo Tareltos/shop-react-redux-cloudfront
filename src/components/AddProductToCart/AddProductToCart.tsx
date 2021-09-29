@@ -15,7 +15,7 @@ type AddProductToCartProps = {
 export default function AddProductToCart({product}: AddProductToCartProps) {
   const dispatch = useDispatch();
   const cartItems = useSelector(selectCartItems);
-  const cartItem = cartItems.find(i => i.product.id === product.id);
+  const cartItem = cartItems.find(i => i.productId === product.id);
 
   return (
     <>
@@ -23,20 +23,28 @@ export default function AddProductToCart({product}: AddProductToCartProps) {
       cartItem ?
         (
           <>
-            <IconButton onClick={() => dispatch(removeFromCart(product))}>
+            <IconButton onClick={() => dispatch(removeFromCart(cartItem))}>
               <Remove color={"secondary"}/>
             </IconButton>
             <Typography align="center">
               {cartItem.count}
             </Typography>
-            <IconButton onClick={() => dispatch(addToCart(product))}>
+            <IconButton onClick={() => dispatch(addToCart(cartItem))}>
               <Add color={"secondary"}/>
             </IconButton>
             </>
         )
         :
         (
-          <IconButton onClick={() => dispatch(addToCart(product))}>
+          <IconButton onClick={() => dispatch(addToCart({
+            id: null,
+            productId: product.id,
+            title: product.title,
+            description: product.description,
+            userId: 'tareltos',
+            price: product.price,
+            count: 0
+          }))}>
             <CartIcon color={"secondary"}/>
           </IconButton>
         )

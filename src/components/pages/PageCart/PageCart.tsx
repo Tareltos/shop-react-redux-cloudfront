@@ -114,11 +114,17 @@ export default function PageCart() {
   const handleNext = () => {
     setActiveStep(activeStep + 1);
     if (activeStep === 2) {
+      const totalPrice: number = cartItems.reduce((total, item) => (item.count * item.price + total), 0);
       const formattedValues = OrderSchema.cast({
-        items: cartItems.map(i => ({productId: i.product.id, count: i.count})),
-        address
+        userId: 'tareltos',
+        items: cartItems.map(i => ({bookId: i.productId, count: i.count, price: i.price, title: i.title, description: i.description})),
+        firstName: address.firstName,
+        lastName: address.lastName,
+        address: address.address,
+        comment: address.comment,
+        totalPrice : totalPrice
       });
-      axios.put(`${API_PATHS.order}/order`, formattedValues)
+      axios.post(`${API_PATHS.order}`, formattedValues)
         .then(() => {
           dispatch(clearCart());
           setActiveStep(activeStep + 1);
@@ -159,7 +165,7 @@ export default function PageCart() {
                 {isCartEmpty && activeStep === 0 && <CartIsEmpty/>}
                 {activeStep === 0 && !isCartEmpty && <ReviewCart/>}
                 {activeStep === 1 && renderForm()}
-                {activeStep === 2 && <ReviewOrder address={address} items={cartItems}/>}
+                {activeStep === 2 && <ReviewOrder order={{items:cartItems, ...address}}/>}
                 {activeStep === 3 && <Success/>}
               </Form>
             )
